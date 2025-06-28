@@ -1,4 +1,12 @@
 PNPM=pnpm
+SUPABASE=$(PNPM) exec supabase
 
 run:
-	$(PNPM) exec supabase start -x vector -x logflare
+	$(SUPABASE) start -x vector -x logflare
+
+migration/up:
+	$(SUPABASE) db push
+
+migration/reset:
+	$(SUPABASE) db reset --preset dev
+

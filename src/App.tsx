@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "./lib/supabase";
+import type { Database } from "./types/database.types";
 
-interface Task {
-  tiile: string;
-  done: boolean;
-}
+type Task = Database["public"]["Tables"]["tasks"]["Row"];
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -18,9 +16,7 @@ function App() {
   const fetchTasks = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from("tasks")
-        .select("*");
+      const { data, error } = await supabase.from("tasks").select("*");
 
       if (error) {
         setError(error.message);
@@ -40,7 +36,9 @@ function App() {
   return (
     <div>
       <h1>タスク一覧</h1>
-      {tasks.length === 0 ? <p>タスクがありません</p> : (
+      {tasks.length === 0 ? (
+        <p>タスクがありません</p>
+      ) : (
         <ul>
           {tasks.map((task) => (
             <li key={task.id}>

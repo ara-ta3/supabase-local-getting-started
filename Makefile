@@ -13,3 +13,5 @@ migration/up:
 migration/reset:
 	$(SUPABASE) db reset --local
 
+server:
+	$(PNPM) exec vite
